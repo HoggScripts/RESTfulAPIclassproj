@@ -1,4 +1,5 @@
 using eCommerceRESTful.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<eCommerceContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Connection")));
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<eCommerceContext>().AddDefaultTokenProviders();
 
 var app = builder.Build();
 

@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
 
 namespace eCommerceRESTful.Models;
 
-public class eCommerceContext : DbContext
+public class eCommerceContext : IdentityDbContext<IdentityUser>
 {
     public eCommerceContext(DbContextOptions<eCommerceContext> options)
         : base(options)
