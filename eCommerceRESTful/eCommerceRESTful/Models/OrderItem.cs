@@ -2,9 +2,9 @@ namespace eCommerceRESTful.Models.Customer;
 
 public class OrderItem
 {
-    public int OrderItemId;
-    public int OrderId;
-    public int ProductId;
-    public int Quantity;
-    public double UnitPrice;
+    public int OrderItemId { get; set; }
+    public int OrderId { get; set; }
+    public int ProductId { get; set; }
+    public int Quantity { get; set; }
+    public double UnitPrice { get; set; }
 }
