@@ -1,4 +1,4 @@
-namespace eCommerceRESTful.Models.Customer;
+namespace eCommerceRESTful.Models;
 
 public class OrderItem
 {
