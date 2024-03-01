@@ -1,5 +1,6 @@
 namespace eCommerceRESTful.Services;
 
+// Like a postmans credentials that will be used to inject into the email service.
 public class EmailSettings
 {
     public string SmtpServer { get; set; }

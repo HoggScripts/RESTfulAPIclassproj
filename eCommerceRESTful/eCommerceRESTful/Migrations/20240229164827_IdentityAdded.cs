@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
-
+// ASPNet Identity migration. Creates the tables for roles, users, and tokens.
 namespace eCommerceRESTful.Migrations
 {
     /// <inheritdoc />

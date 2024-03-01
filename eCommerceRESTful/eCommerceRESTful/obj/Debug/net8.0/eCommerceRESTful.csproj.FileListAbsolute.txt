@@ -261,3 +261,4 @@
 /Users/hogg/Documents/GitHub/RESTfulAPIclassproj/eCommerceRESTful/eCommerceRESTful/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
 /Users/hogg/Documents/GitHub/RESTfulAPIclassproj/eCommerceRESTful/eCommerceRESTful/bin/Debug/net8.0/MailKit.dll
 /Users/hogg/Documents/GitHub/RESTfulAPIclassproj/eCommerceRESTful/eCommerceRESTful/bin/Debug/net8.0/MimeKit.dll
+/Users/hogg/Documents/GitHub/RESTfulAPIclassproj/eCommerceRESTful/eCommerceRESTful/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
