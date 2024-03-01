@@ -8,6 +8,7 @@ using eCommerceRESTful.Models;
 
 #nullable disable
 
+// provides a snapshot of the current state of the model before next migration.
 namespace eCommerceRESTful.Migrations
 {
     [DbContext(typeof(eCommerceContext))]

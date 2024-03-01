@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+// initial migration. creates the database and tables for the first time. Additions include the Address, Customer, Order, OrderItem, and Product tables.
 namespace eCommerceRESTful.Migrations
 {
     /// <inheritdoc />
