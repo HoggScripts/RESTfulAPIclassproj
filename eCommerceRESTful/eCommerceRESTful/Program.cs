@@ -51,6 +51,10 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<EmailService>();
 
+// logging functionality
+builder.Logging.ClearProviders(); // Remove other loggers
+builder.Logging.AddConsole(); // Add Console logger
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using eCommerceRESTful.Models;
+using Microsoft.Extensions.Logging;
 
 namespace eCommerceRESTful.Controllers
 {
@@ -14,16 +15,19 @@ namespace eCommerceRESTful.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly eCommerceContext _context;
+        private readonly ILogger<OrdersController> _logger;
 
-        public OrdersController(eCommerceContext context)
+        public OrdersController(eCommerceContext context, ILogger<OrdersController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Orders
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
+            _logger.LogInformation("Getting all orders");
             return await _context.Orders.ToListAsync();
         }
 
@@ -35,9 +39,11 @@ namespace eCommerceRESTful.Controllers
 
             if (order == null)
             {
+                _logger.LogWarning("Order with id {OrderId} not found", id);
                 return NotFound();
             }
 
+            _logger.LogInformation("Order with id {OrderId} retrieved successfully", id);
             return order;
         }
 
@@ -56,11 +62,13 @@ namespace eCommerceRESTful.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                _logger.LogInformation("Order with id {OrderId} updated successfully", id);
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!OrderExists(id))
                 {
+                    _logger.LogWarning("Order with id {OrderId} not found", id);
                     return NotFound();
                 }
                 else
@@ -80,6 +88,7 @@ namespace eCommerceRESTful.Controllers
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
+            _logger.LogInformation("Order with id {OrderId} created successfully", order.OrderId);
             return CreatedAtAction("GetOrder", new { id = order.OrderId }, order);
         }
 
@@ -90,12 +99,14 @@ namespace eCommerceRESTful.Controllers
             var order = await _context.Orders.FindAsync(id);
             if (order == null)
             {
+                _logger.LogWarning("Order with id {OrderId} not found", id);
                 return NotFound();
             }
 
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
 
+            _logger.LogInformation("Order with id {OrderId} deleted successfully", id);
             return NoContent();
         }
 

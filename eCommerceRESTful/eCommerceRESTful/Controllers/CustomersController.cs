@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using eCommerceRESTful.Models;
+using Microsoft.Extensions.Logging;
 
 namespace eCommerceRESTful.Controllers
 {
@@ -14,16 +15,19 @@ namespace eCommerceRESTful.Controllers
     public class CustomersController : ControllerBase
     {
         private readonly eCommerceContext _context;
+        private readonly ILogger<CustomersController> _logger;
 
-        public CustomersController(eCommerceContext context)
+        public CustomersController(eCommerceContext context, ILogger<CustomersController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Customers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
+            _logger.LogInformation("Getting all customers");
             return await _context.Customers.ToListAsync();
         }
 
@@ -35,9 +39,11 @@ namespace eCommerceRESTful.Controllers
 
             if (customer == null)
             {
+                _logger.LogWarning("Customer with id {CustomerId} not found", id);
                 return NotFound();
             }
 
+            _logger.LogInformation("Customer with id {CustomerId} retrieved successfully", id);
             return customer;
         }
 
@@ -56,11 +62,13 @@ namespace eCommerceRESTful.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                _logger.LogInformation("Customer with id {CustomerId} updated successfully", id);
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!CustomerExists(id))
                 {
+                    _logger.LogWarning("Customer with id {CustomerId} not found", id);
                     return NotFound();
                 }
                 else
@@ -80,6 +88,7 @@ namespace eCommerceRESTful.Controllers
             _context.Customers.Add(customer);
             await _context.SaveChangesAsync();
 
+            _logger.LogInformation("Customer with id {CustomerId} created successfully", customer.CustomerId);
             return CreatedAtAction("GetCustomer", new { id = customer.CustomerId }, customer);
         }
 
@@ -90,12 +99,14 @@ namespace eCommerceRESTful.Controllers
             var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
             {
+                _logger.LogWarning("Customer with id {CustomerId} not found", id);
                 return NotFound();
             }
 
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
 
+            _logger.LogInformation("Customer with id {CustomerId} deleted successfully", id);
             return NoContent();
         }
 

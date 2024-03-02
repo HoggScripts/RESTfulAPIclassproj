@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using eCommerceRESTful.Models;
 using eCommerceRESTful.Services;
+using Microsoft.Extensions.Logging;
 
 namespace eCommerceRESTful.Controllers
 {
@@ -24,23 +25,27 @@ namespace eCommerceRESTful.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly EmailService _emailService;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, EmailService emailService, IConfiguration configuration)
+        public AccountController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, EmailService emailService, IConfiguration configuration, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
             _configuration = configuration;
+            _logger = logger;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(AuthModel model)
         {
+            _logger.LogInformation("Registering user {Email}", model.Email);
             var user = new IdentityUser { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
+                _logger.LogInformation("User {Email} registered successfully", model.Email);
                 // Generate an email verification token
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
@@ -55,14 +60,15 @@ namespace eCommerceRESTful.Controllers
                 return Ok("You are registered successfully. An email verification link has been sent.");
             }
 
+            _logger.LogWarning("User registration failed for {Email}", model.Email);
             return BadRequest(result.Errors);
         }
-
 
         // Add an action to handle email verification
         [HttpGet("verify-email")]
         public async Task<IActionResult> VerifyEmail(string userId, string token)
         {
+            _logger.LogInformation("Verifying email for user {UserId}", userId);
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
@@ -74,38 +80,43 @@ namespace eCommerceRESTful.Controllers
 
             if (result.Succeeded)
             {
+                _logger.LogInformation("Email verified for user {UserId}", userId);
                 return Ok("Email verification successful.");
             }
 
+            _logger.LogWarning("Email verification failed for user {UserId}", userId);
             return BadRequest("Email verification failed.");
         }
-
-
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(AuthModel model)
         {
+            _logger.LogInformation("User {Email} attempting to login", model.Email);
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
+                _logger.LogInformation("User {Email} logged in successfully", model.Email);
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 var roles = await _userManager.GetRolesAsync(user);
                 var token = GenerateJwtToken(user,roles);
                 return Ok(new { Token = token });
             }
 
+            _logger.LogWarning("Invalid login attempt for user {Email}", model.Email);
             return Unauthorized("Invalid login attempt.");
         }
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
+            _logger.LogInformation("User logged out");
             await _signInManager.SignOutAsync();
             return Ok("Logged out");
         }
         private string GenerateJwtToken(IdentityUser user, IList<string> roles)
         {
+            _logger.LogInformation("Generating JWT token for user {Email}", user.Email);
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
@@ -136,4 +147,3 @@ namespace eCommerceRESTful.Controllers
     }
 
 }
-

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using eCommerceRESTful.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace eCommerceRESTful.Controllers
 {
@@ -17,16 +18,19 @@ namespace eCommerceRESTful.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger<RolesController> _logger;
 
-        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
+        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, ILogger<RolesController> logger)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _logger = logger;
         }
 
         [HttpGet]
         public IActionResult GetRoles()
         {
+            _logger.LogInformation("Getting all roles");
             var roles = _roleManager.Roles.ToList();
             return Ok(roles);
         }
@@ -38,9 +42,11 @@ namespace eCommerceRESTful.Controllers
 
             if (role == null)
             {
+                _logger.LogWarning("Role with id {RoleId} not found", roleId);
                 return NotFound("Role not found.");
             }
 
+            _logger.LogInformation("Role with id {RoleId} retrieved successfully", roleId);
             return Ok(role);
         }
 
@@ -52,6 +58,7 @@ namespace eCommerceRESTful.Controllers
 
             if (result.Succeeded)
             {
+                _logger.LogInformation("Role {RoleName} created successfully", roleName);
                 return Ok("Role created successfully.");
             }
 
@@ -65,6 +72,7 @@ namespace eCommerceRESTful.Controllers
 
             if (role == null)
             {
+                _logger.LogWarning("Role with id {RoleId} not found", model.RoleId);
                 return NotFound("Role not found.");
             }
 
@@ -73,6 +81,7 @@ namespace eCommerceRESTful.Controllers
 
             if (result.Succeeded)
             {
+                _logger.LogInformation("Role with id {RoleId} updated successfully", model.RoleId);
                 return Ok("Role updated successfully.");
             }
 
@@ -86,6 +95,7 @@ namespace eCommerceRESTful.Controllers
 
             if (role == null)
             {
+                _logger.LogWarning("Role with id {RoleId} not found", roleId);
                 return NotFound("Role not found.");
             }
 
@@ -93,6 +103,7 @@ namespace eCommerceRESTful.Controllers
 
             if (result.Succeeded)
             {
+                _logger.LogInformation("Role with id {RoleId} deleted successfully", roleId);
                 return Ok("Role deleted successfully.");
             }
 
@@ -106,6 +117,7 @@ namespace eCommerceRESTful.Controllers
 
             if (user == null)
             {
+                _logger.LogWarning("User with id {UserId} not found", model.UserId);
                 return NotFound("User not found.");
             }
 
@@ -113,6 +125,7 @@ namespace eCommerceRESTful.Controllers
 
             if (!roleExists)
             {
+                _logger.LogWarning("Role {RoleName} not found", model.RoleName);
                 return NotFound("Role not found.");
             }
 
@@ -120,6 +133,7 @@ namespace eCommerceRESTful.Controllers
 
             if (result.Succeeded)
             {
+                _logger.LogInformation("Role {RoleName} assigned to user with id {UserId} successfully", model.RoleName, model.UserId);
                 return Ok("Role assigned to user successfully.");
             }
 

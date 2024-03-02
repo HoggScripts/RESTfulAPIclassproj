@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using eCommerceRESTful.Models;
+using Microsoft.Extensions.Logging;
 
 namespace eCommerceRESTful.Controllers
 {
@@ -14,16 +15,19 @@ namespace eCommerceRESTful.Controllers
     public class AddressController : ControllerBase
     {
         private readonly eCommerceContext _context;
+        private readonly ILogger<AddressController> _logger;
 
-        public AddressController(eCommerceContext context)
+        public AddressController(eCommerceContext context, ILogger<AddressController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Address
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Address>>> GetAddresses()
         {
+            _logger.LogInformation("Getting all addresses");
             return await _context.Addresses.ToListAsync();
         }
 
@@ -35,9 +39,11 @@ namespace eCommerceRESTful.Controllers
 
             if (address == null)
             {
+                _logger.LogWarning("Address with id {AddressId} not found", id);
                 return NotFound();
             }
 
+            _logger.LogInformation("Address with id {AddressId} retrieved successfully", id);
             return address;
         }
 
@@ -56,11 +62,13 @@ namespace eCommerceRESTful.Controllers
             try
             {
                 await _context.SaveChangesAsync();
+                _logger.LogInformation("Address with id {AddressId} updated successfully", id);
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!AddressExists(id))
                 {
+                    _logger.LogWarning("Address with id {AddressId} not found", id);
                     return NotFound();
                 }
                 else
@@ -80,6 +88,7 @@ namespace eCommerceRESTful.Controllers
             _context.Addresses.Add(address);
             await _context.SaveChangesAsync();
 
+            _logger.LogInformation("Address with id {AddressId} created successfully", address.AddressId);
             return CreatedAtAction("GetAddress", new { id = address.AddressId }, address);
         }
 
@@ -90,12 +99,14 @@ namespace eCommerceRESTful.Controllers
             var address = await _context.Addresses.FindAsync(id);
             if (address == null)
             {
+                _logger.LogWarning("Address with id {AddressId} not found", id);
                 return NotFound();
             }
 
             _context.Addresses.Remove(address);
             await _context.SaveChangesAsync();
 
+            _logger.LogInformation("Address with id {AddressId} deleted successfully", id);
             return NoContent();
         }
 
