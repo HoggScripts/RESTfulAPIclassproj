@@ -19,7 +19,7 @@ public class EmailService
     public void SendEmail(string toEmail, string subject, string body) //kind of like the letter itself.
     {
         var message = new MimeMessage(); //the letter (or envelope)
-        message.From.Add(new MailboxAddress("Support CareApp", _emailSettings.SmtpUsername)); //the sender
+        message.From.Add(new MailboxAddress("Ben's RESTful API Project", _emailSettings.SmtpUsername)); //the sender
         message.To.Add(new MailboxAddress("Reciever Name", toEmail)); //the reciever
         message.Subject = subject;
         var textPart = new TextPart("plain")

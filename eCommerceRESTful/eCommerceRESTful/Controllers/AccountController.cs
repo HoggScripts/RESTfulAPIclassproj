@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using eCommerceRESTful.Models;
 using eCommerceRESTful.Services;
 
-namespace IdentityPractice.Controllers
+namespace eCommerceRESTful.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -49,10 +49,10 @@ namespace IdentityPractice.Controllers
 
                 // Send the verification email
                 var emailSubject = "Email Verification";
-                var emailBody = $"Please verify your email by clicking the following link: {verificationLink}";
+                var emailBody = $"Thank you for registering with Ben's RESTful API eCommerce. Please verify your email by clicking the following link: {verificationLink}";
                 _emailService.SendEmail(user.Email, emailSubject, emailBody);
                
-                return Ok("User registered successfully. An email verification link has been sent.");
+                return Ok("You are registered successfully. An email verification link has been sent.");
             }
 
             return BadRequest(result.Errors);
