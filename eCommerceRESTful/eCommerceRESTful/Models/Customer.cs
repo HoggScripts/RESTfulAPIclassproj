@@ -10,4 +10,6 @@ public class Customer
     
     [JsonIgnore]
     public string Password { get; set; }
+    
+    // addresses?
 }
