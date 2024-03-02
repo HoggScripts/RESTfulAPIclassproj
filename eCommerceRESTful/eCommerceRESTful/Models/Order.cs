@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace eCommerceRESTful.Models;
 
 public class Order
@@ -6,4 +8,7 @@ public class Order
     public int CustomerId { get; set; }
     public DateTime OrderDate { get; set; }
     public double TotalAmount { get; set; }
+    
+    [JsonIgnore]
+    public ICollection<OrderItem>? OrderItems { get; set; }
 }
