@@ -13,8 +13,8 @@ public class Customer
     public string Password { get; set; }
     
     [JsonIgnore]
-    public ICollection<Order> Orders { get; set; }
+    public ICollection<Order>? Orders { get; set; }
     
     [JsonIgnore]
-    public ICollection<Address> Addresses { get; set; }
+    public ICollection<Address>? Addresses { get; set; }
 }
