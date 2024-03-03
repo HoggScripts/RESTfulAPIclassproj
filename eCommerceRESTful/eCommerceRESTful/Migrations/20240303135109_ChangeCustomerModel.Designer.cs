@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eCommerceRESTful.Models;
 
@@ -11,9 +12,11 @@ using eCommerceRESTful.Models;
 namespace eCommerceRESTful.Migrations
 {
     [DbContext(typeof(eCommerceContext))]
-    partial class eCommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20240303135109_ChangeCustomerModel")]
+    partial class ChangeCustomerModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -290,6 +293,9 @@ namespace eCommerceRESTful.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
+                    b.Property<double>("TotalAmount")
+                        .HasColumnType("float");
+
                     b.HasKey("OrderId");
 
                     b.HasIndex("CustomerId");
@@ -309,9 +315,6 @@ namespace eCommerceRESTful.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("OrderItemId");

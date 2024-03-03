@@ -5,6 +5,7 @@ namespace eCommerceRESTful.Models;
 public class OrderItem
 {
     public int OrderItemId { get; set; } // PK
+    public int Quantity { get; set; }
     
     public int OrderId { get; set; } // FK
     [JsonIgnore]
