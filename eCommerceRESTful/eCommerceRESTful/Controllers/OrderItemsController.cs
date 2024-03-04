@@ -85,7 +85,29 @@ namespace eCommerceRESTful.Controllers
         [HttpPost]
         public async Task<ActionResult<OrderItem>> PostOrderItem(OrderItem orderItem)
         {
-            _context.OrderItems.Add(orderItem);
+            // Retrieve the Order and Product from the database
+            var order = await _context.Orders.FindAsync(orderItem.OrderId);
+            var product = await _context.Products.FindAsync(orderItem.ProductId);
+
+            // Log the Order and Product
+            _logger.LogInformation("Order: {Order}", order);
+            _logger.LogInformation("Product: {Product}", product);
+
+            if (order == null || product == null)
+            {
+                // If the Order or Product does not exist, return a BadRequest
+                return BadRequest("The Order or Product does not exist.");
+            }
+
+            // Initialize the OrderItems collections if they are null
+            // This is necessary to avoid a NullReferenceException
+            order.OrderItems = order.OrderItems ?? new List<OrderItem>();
+            product.OrderItems = product.OrderItems ?? new List<OrderItem>();
+
+            // Add the OrderItem to the OrderItems collection of the Order and Product
+            order.OrderItems.Add(orderItem);
+            product.OrderItems.Add(orderItem);
+
             await _context.SaveChangesAsync();
 
             _logger.LogInformation("Order item with id {OrderItemId} created successfully", orderItem.OrderItemId);

@@ -28,14 +28,17 @@ namespace eCommerceRESTful.Controllers
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
             _logger.LogInformation("Getting all orders");
-            return await _context.Orders.ToListAsync();
+
+            // Get all orders
+            var orders = await _context.Orders.ToListAsync();
+            return orders;
         }
 
         // GET: api/Orders/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderId == id); // Find the order (id)
 
             if (order == null)
             {
