@@ -6,12 +6,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using eCommerceRESTful.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 
 namespace eCommerceRESTful.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,User")]
     public class CustomersController : ControllerBase
     {
         private readonly eCommerceContext _context;
