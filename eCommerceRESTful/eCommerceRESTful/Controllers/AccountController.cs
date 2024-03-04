@@ -13,12 +13,14 @@ using System.Text;
 using System.Threading.Tasks;
 using eCommerceRESTful.Models;
 using eCommerceRESTful.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 
 namespace eCommerceRESTful.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin,User")]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
