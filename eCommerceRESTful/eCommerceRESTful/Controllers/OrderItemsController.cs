@@ -45,7 +45,7 @@ namespace eCommerceRESTful.Controllers
                 return NotFound();
             }
 
-            _logger.LogInformation("Order item with id {OrderItemId} retrieved successfully", id);
+            _logger.LogInformation("Order item with id {OrderItemId} retrieved", id);
             return orderItem;
         }
 
@@ -87,26 +87,26 @@ namespace eCommerceRESTful.Controllers
         [HttpPost]
         public async Task<ActionResult<OrderItem>> PostOrderItem(OrderItem orderItem)
         {
-            // Retrieve the Order and Product from the database
+            // Retrieve the order and product
             var order = await _context.Orders.FindAsync(orderItem.OrderId);
             var product = await _context.Products.FindAsync(orderItem.ProductId);
 
-            // Log the Order and Product
+            // Log info
             _logger.LogInformation("Order: {Order}", order);
             _logger.LogInformation("Product: {Product}", product);
 
             if (order == null || product == null)
             {
-                // If the Order or Product does not exist, return a BadRequest
+                // If the order or product does not exist, return a bad request
                 return BadRequest("The Order or Product does not exist.");
             }
 
-            // Initialize the OrderItems collections if they are null
-            // This is necessary to avoid a NullReferenceException
+            // Initialize the orderitems if they are null
+            // This is necessary to avoid a null exception when adding the orderitem to the order and product
             order.OrderItems = order.OrderItems ?? new List<OrderItem>();
             product.OrderItems = product.OrderItems ?? new List<OrderItem>();
 
-            // Add the OrderItem to the OrderItems collection of the Order and Product
+            // Add the orderitems to both the order and product
             order.OrderItems.Add(orderItem);
             product.OrderItems.Add(orderItem);
 

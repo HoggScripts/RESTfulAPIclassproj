@@ -46,7 +46,7 @@ namespace eCommerceRESTful.Controllers
                 return NotFound("Role not found.");
             }
 
-            _logger.LogInformation("Role with id {RoleId} retrieved successfully", roleId);
+            _logger.LogInformation("Role with id {RoleId} found", roleId);
             return Ok(role);
         }
 
@@ -58,7 +58,7 @@ namespace eCommerceRESTful.Controllers
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("Role {RoleName} created successfully", roleName);
+                _logger.LogInformation("Role {RoleName} created", roleName);
                 return Ok("Role created successfully.");
             }
 
@@ -81,7 +81,7 @@ namespace eCommerceRESTful.Controllers
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("Role with id {RoleId} updated successfully", model.RoleId);
+                _logger.LogInformation("Role with id {RoleId} updated", model.RoleId);
                 return Ok("Role updated successfully.");
             }
 
@@ -103,7 +103,7 @@ namespace eCommerceRESTful.Controllers
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("Role with id {RoleId} deleted successfully", roleId);
+                _logger.LogInformation("Role with id {RoleId} deleted", roleId);
                 return Ok("Role deleted successfully.");
             }
 
@@ -133,8 +133,8 @@ namespace eCommerceRESTful.Controllers
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("Role {RoleName} assigned to user with id {UserId} successfully", model.RoleName, model.UserId);
-                return Ok("Role assigned to user successfully.");
+                _logger.LogInformation("Role {RoleName} assigned to user with id {UserId}", model.RoleName, model.UserId);
+                return Ok("Role assigned to user.");
             }
 
             return BadRequest(result.Errors);

@@ -45,7 +45,7 @@ namespace eCommerceRESTful.Controllers
                 return NotFound();
             }
 
-            _logger.LogInformation("Product with id {ProductId} retrieved successfully", id);
+            _logger.LogInformation("Product with id {ProductId} found", id);
             return product;
         }
 
@@ -64,7 +64,7 @@ namespace eCommerceRESTful.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-                _logger.LogInformation("Product with id {ProductId} updated successfully", id);
+                _logger.LogInformation("Product with id {ProductId} updated", id);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -90,7 +90,7 @@ namespace eCommerceRESTful.Controllers
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Product with id {ProductId} created successfully", product.ProductId);
+            _logger.LogInformation("Product with id {ProductId} created", product.ProductId);
             return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
         }
 
@@ -108,7 +108,7 @@ namespace eCommerceRESTful.Controllers
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Product with id {ProductId} deleted successfully", id);
+            _logger.LogInformation("Product with id {ProductId} deleted", id);
             return NoContent();
         }
 

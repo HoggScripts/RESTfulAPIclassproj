@@ -29,7 +29,7 @@ namespace eCommerceRESTful.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
-            _logger.LogInformation("Getting all orders");
+            _logger.LogInformation("Find all orders");
 
             // Get all orders
             var orders = await _context.Orders.ToListAsync();
@@ -48,7 +48,7 @@ namespace eCommerceRESTful.Controllers
                 return NotFound();
             }
 
-            _logger.LogInformation("Order with id {OrderId} retrieved successfully", id);
+            _logger.LogInformation("Order with id {OrderId} found", id);
             return order;
         }
 
@@ -67,7 +67,7 @@ namespace eCommerceRESTful.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-                _logger.LogInformation("Order with id {OrderId} updated successfully", id);
+                _logger.LogInformation("Order with id {OrderId} updated", id);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -93,7 +93,7 @@ namespace eCommerceRESTful.Controllers
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Order with id {OrderId} created successfully", order.OrderId);
+            _logger.LogInformation("Order with id {OrderId} created", order.OrderId);
             return CreatedAtAction("GetOrder", new { id = order.OrderId }, order);
         }
 
@@ -111,7 +111,7 @@ namespace eCommerceRESTful.Controllers
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Order with id {OrderId} deleted successfully", id);
+            _logger.LogInformation("Order with id {OrderId} deleted", id);
             return NoContent();
         }
 

@@ -1,0 +1,22 @@
+﻿<Properties StartupConfiguration="{F7ED5C1C-AD86-456A-8273-54A760F627E0}|https">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.eCommerceRESTful PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="eCommerceRESTful/eCommerceRESTful.csproj">
+    <Files>
+      <File FileName="eCommerceRESTful.sln" Line="1" Column="1" />
+      <File FileName="eCommerceRESTful/eCommerceRESTful.csproj" Line="6" Column="7" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="eCommerceRESTful" expanded="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+</Properties>
