@@ -1,1 +1,2 @@
 echo "eCommerceRESTful/appsettings.json" >> .gitignore
+eCommerceRESTful/appsettings.json
