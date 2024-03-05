@@ -1,26 +1,18 @@
 using eCommerceRESTful.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using eCommerceRESTful.Models;
 using eCommerceRESTful.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
+
 
 namespace eCommerceRESTful.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin,User")]
+    // [Authorize(Roles = "Admin,User")]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
